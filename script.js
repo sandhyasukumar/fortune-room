@@ -1,5 +1,11 @@
 
-// TYPE A: Statements that feel true to everyone
+/* ========================================
+   THE FORTUNE ROOM
+   Fortune Categories
+======================================== */
+
+// TYPE A: Predictions
+
 const typeA = [
     "You work best when you care about the problem.",
     "A small thing you try this month will matter more than you expect.",
@@ -15,7 +21,9 @@ const typeA = [
     "Something you are curious about right now will stay with you."
 ];
 
+
 // TYPE B: Funny and silly fortunes
+
 const typeB = [
     "You will become a world champion at finding lost chargers.",
     "You will invent a cure for Monday mornings.",
@@ -29,7 +37,9 @@ const typeB = [
     "You will beat Chennai traffic once, and tell everyone about it."
 ];
 
+
 // TYPE C: Reflective questions
+
 const typeC = [
     "What would you try if you knew you could not fail?",
     "What do you do for hours without noticing the time?",
@@ -41,18 +51,70 @@ const typeC = [
     "What would a Tuesday afternoon look like in your dream job?"
 ];
 
-// Combine all 30 fortunes into one pool
+
+// ALL FORTUNES
+
 const fortunes = [...typeA, ...typeB, ...typeC];
 
 
+// ========================================
+// CATEGORY SELECTOR
+// ========================================
 
+const categorySelect = document.createElement("select");
+
+categorySelect.id = "fortuneCategory";
+
+categorySelect.innerHTML = `
+    <option value="all">✧ Surprise Me ✧</option>
+    <option value="typeA">🔮 Prediction</option>
+    <option value="typeB">☻ Funny Fortune</option>
+    <option value="typeC">✧ Reflective Question</option>
+`;
+
+// Style the category selector
+
+categorySelect.style.cssText = `
+    display: block;
+    margin: 20px auto;
+    padding: 12px 22px;
+    min-width: 230px;
+    background: #fff8e9;
+    color: #805b35;
+    border: 1px solid #c9a36c;
+    border-radius: 30px;
+    font-family: Georgia, serif;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 3px 12px #9c744522;
+`;
+
+
+// Put selector above the button
+
+const fortuneButton = document.getElementById("fortuneButton");
+
+fortuneButton.parentNode.insertBefore(
+    categorySelect,
+    fortuneButton
+);
+
+
+// ========================================
 // SOUND EFFECTS
+// ========================================
 
 let audioContext;
 
 function getAudio() {
+
     if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioContext = new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
     }
 
     if (audioContext.state === "suspended") {
@@ -62,8 +124,11 @@ function getAudio() {
     return audioContext;
 }
 
-// Cookie crack sound
+
+// COOKIE CRACK SOUND
+
 function playCrackSound() {
+
     const audio = getAudio();
     const now = audio.currentTime;
 
@@ -83,8 +148,13 @@ function playCrackSound() {
     const volume = audio.createGain();
 
     noise.buffer = buffer;
+
     volume.gain.setValueAtTime(0.3, now);
-    volume.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+    volume.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 0.15
+    );
 
     noise.connect(volume);
     volume.connect(audio.destination);
@@ -93,12 +163,16 @@ function playCrackSound() {
     noise.stop(now + 0.15);
 }
 
-// Magical reveal chime
+
+// MAGICAL REVEAL CHIME
+
 function playRevealSound() {
+
     const audio = getAudio();
     const now = audio.currentTime;
 
     [880, 1174, 1480].forEach(function(frequency, index) {
+
         const oscillator = audio.createOscillator();
         const volume = audio.createGain();
 
@@ -106,23 +180,61 @@ function playRevealSound() {
         oscillator.frequency.value = frequency;
 
         volume.gain.setValueAtTime(0.001, now);
-        volume.gain.linearRampToValueAtTime(0.12, now + 0.05);
-        volume.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+
+        volume.gain.linearRampToValueAtTime(
+            0.12,
+            now + 0.05
+        );
+
+        volume.gain.exponentialRampToValueAtTime(
+            0.001,
+            now + 0.8
+        );
 
         oscillator.connect(volume);
         volume.connect(audio.destination);
 
         oscillator.start(now + index * 0.12);
         oscillator.stop(now + 0.9);
+
     });
 }
 
 
+// ========================================
+// SELECT FORTUNE CATEGORY
+// ========================================
+
+function getSelectedFortunes() {
+
+    const category = categorySelect.value;
+
+    if (category === "typeA") {
+        return typeA;
+    }
+
+    if (category === "typeB") {
+        return typeB;
+    }
+
+    if (category === "typeC") {
+        return typeC;
+    }
+
+    return fortunes;
+}
+
+
+// ========================================
 // MAIN FORTUNE FUNCTION
+// ========================================
 
 function getFortune() {
+
+    const selectedFortunes = getSelectedFortunes();
+
     const randomIndex = Math.floor(
-        Math.random() * fortunes.length
+        Math.random() * selectedFortunes.length
     );
 
     const fortuneBox = document.getElementById("fortune");
@@ -130,45 +242,69 @@ function getFortune() {
     const button = document.getElementById("fortuneButton");
     const sparkleBurst = document.getElementById("sparkleBurst");
 
+    // Prevent multiple clicks during animation
+
     button.disabled = true;
 
-    // Reset the cookie and sparkles
+    // Reset previous cookie animation
+
     cookie.classList.remove("open");
     sparkleBurst.classList.remove("show");
 
     // Shake the cookie
+
     cookie.classList.add("shaking");
 
     setTimeout(function() {
+
         cookie.classList.remove("shaking");
+
     }, 450);
 
-    // Choose a new fortune
+
+    // Update button text
 
     button.innerHTML = 'Crack Another Cookie <span>✧</span>';
 
-    // Wait for the cookie to reset
+
+    // Wait for the previous paper to disappear
+
     setTimeout(function() {
 
-    // Change the fortune only after the old paper disappears
-    fortuneBox.innerText = fortunes[randomIndex];
+        // Choose a fortune from the selected category
 
-    // Play crack sound and open cookie
-    playCrackSound();
-    cookie.classList.add("open");
+        fortuneBox.innerText = selectedFortunes[randomIndex];
+
+        // Play crack sound
+
+        playCrackSound();
+
+        // Open the cookie
+
+        cookie.classList.add("open");
+
 
         // Show golden sparkles
+
         sparkleBurst.classList.add("show");
 
         setTimeout(function() {
+
             sparkleBurst.classList.remove("show");
+
         }, 900);
 
-        // Reveal chime after paper unfolds
+
+        // Play reveal chime after paper unfolds
+
         setTimeout(function() {
+
             playRevealSound();
+
             button.disabled = false;
+
         }, 1300);
 
     }, 1300);
+
 }

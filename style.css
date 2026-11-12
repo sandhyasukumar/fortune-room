@@ -138,6 +138,7 @@ h1::after {
 
 /* COOKIE STAGE */
 
+
 .cookie-stage {
     position: relative;
     width: 260px;
@@ -145,7 +146,9 @@ h1::after {
     display: grid;
     place-items: center;
     margin: 25px 0;
+    transform: translateY(25px);
 }
+
 
 /* GOLDEN MAGICAL AURA */
 
@@ -201,34 +204,68 @@ h1::after {
     transform-origin: center;
 }
 
+
+/* COOKIE HALVES */
+
 /* COOKIE HALVES */
 
 .cookie-half {
     position: absolute;
-    width: 85px;
-    height: 100px;
-    top: 10px;
+    top: 12px;
+    width: 100px;
+    height: 88px;
 
     background: linear-gradient(
-        135deg,
-        #f5d49b,
-        #c58a4b
+        145deg,
+        #ffe5b5 0%,
+        #f2c58a 30%,
+        #dfa363 65%,
+        #bd7d42 100%
     );
 
-    border: 3px solid #b67c42;
-    box-shadow: inset 0 0 12px #fff0c4;
+    box-shadow:
+        inset 3px 4px 8px #fff0ce88,
+        inset -4px -5px 9px #a9683433,
+        0 3px 5px #86552e44;
 }
+
+/* LEFT FOLDED WING */
 
 .cookie-half.left {
-    left: 8px;
-    border-radius: 70% 20% 70% 35%;
-    transform: rotate(-25deg);
+    left: 0;
+
+    border-radius:
+        85% 25% 15% 75% /
+        65% 35% 65% 35%;
+
+    transform: rotate(12deg);
 }
 
+/* RIGHT FOLDED WING */
+
 .cookie-half.right {
-    right: 8px;
-    border-radius: 20% 70% 35% 70%;
-    transform: rotate(25deg);
+    right: 0;
+
+    border-radius:
+        25% 85% 75% 15% /
+        35% 65% 35% 65%;
+
+    transform: rotate(-12deg);
+}
+
+/* TOASTED EDGES AND FOLD DETAILS */
+
+.cookie-half::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+
+    border-radius: inherit;
+
+    border-top: 2px solid #fff0c477;
+    border-bottom: 2px solid #a66c3944;
+
+    pointer-events: none;
 }
 
 /* COOKIE SHAKE */
