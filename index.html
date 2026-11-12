@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fortune Room</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="sparkle sparkle-one">✦</div>
+    <div class="sparkle sparkle-two">✧</div>
+    <div class="sparkle sparkle-three">✦</div>
+
+    <main class="container">
+
+        <p class="eyebrow">A LITTLE MOMENT OF MAGIC</p>
+
+        <h1>The Fortune Room</h1>
+
+        <p class="subtitle">
+            A little mystery. A little wisdom.
+            A message meant just for you.
+        </p>
+
+        <div class="cookie-stage">
+
+    <div class="sparkle-burst" id="sparkleBurst">
+        <span>✦</span>
+        <span>✧</span>
+        <span>✦</span>
+        <span>✧</span>
+        <span>✦</span>
+        <span>✧</span>
+    </div>
+
+
+            <!-- Fortune cookie -->
+            <div class="cookie" id="cookie">
+                <div class="cookie-half left"></div>
+                <div class="cookie-half right"></div>
+            </div>
+
+            <!-- Unrolling fortune paper -->
+            <div class="fortune-slip">
+
+                <div class="paper-body">
+                    <p class="fortune-text" id="fortune">
+                        Your fortune awaits...
+                    </p>
+                </div>
+
+                <div class="paper-roll"></div>
+
+            </div>
+
+        </div>
+
+        <button onclick="getFortune()" id="fortuneButton">
+            Reveal My Fortune <span>✧</span>
+        </button>
+
+        <p class="hint">
+            Take a breath and discover your message.
+        </p>
+
+        <footer>
+            MADE WITH A LITTLE BIT OF MAGIC
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
